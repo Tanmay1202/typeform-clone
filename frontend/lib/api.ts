@@ -1,0 +1,71 @@
+export const API_BASE = 'http://localhost:8000/api';
+
+export async function fetchForms() {
+  const res = await fetch(`${API_BASE}/forms/`);
+  if (!res.ok) throw new Error('Failed to fetch forms');
+  return res.json();
+}
+
+export async function createForm(data: { title: string; description?: string }) {
+  const res = await fetch(`${API_BASE}/forms/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to create form');
+  return res.json();
+}
+
+export async function getForm(id: number) {
+  const res = await fetch(`${API_BASE}/forms/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch form');
+  return res.json();
+}
+
+export async function updateForm(id: number, data: any) {
+  const res = await fetch(`${API_BASE}/forms/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to update form');
+  return res.json();
+}
+
+export async function createQuestion(formId: number, data: any) {
+  const res = await fetch(`${API_BASE}/forms/${formId}/questions/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to create question');
+  return res.json();
+}
+
+export async function updateQuestion(formId: number, questionId: number, data: any) {
+  const res = await fetch(`${API_BASE}/forms/${formId}/questions/${questionId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to update question');
+  return res.json();
+}
+
+export async function deleteQuestion(formId: number, questionId: number) {
+  const res = await fetch(`${API_BASE}/forms/${formId}/questions/${questionId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete question');
+  return res.json();
+}
+
+export async function reorderQuestions(formId: number, questionIds: number[]) {
+  const res = await fetch(`${API_BASE}/forms/${formId}/questions/reorder`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question_ids: questionIds }),
+  });
+  if (!res.ok) throw new Error('Failed to reorder questions');
+  return res.json();
+}

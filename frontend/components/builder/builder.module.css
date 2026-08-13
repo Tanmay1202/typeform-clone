@@ -1,0 +1,211 @@
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.listSection {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.questionListItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--surface);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.questionListItem:hover {
+  background-color: var(--surface-hover);
+}
+
+.questionListActive {
+  background-color: #f0f7ff;
+  border: 1px solid var(--accent-color);
+}
+
+.dragHandle {
+  cursor: grab;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.questionIcon {
+  margin-right: 12px;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.questionTitle {
+  font-size: 14px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addButtonWrapper {
+  margin-top: 16px;
+}
+
+.addContentButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--text-primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  width: max-content;
+}
+
+.addContentButton:hover {
+  opacity: 0.9;
+}
+
+/* Editor Panel */
+.editorPanel {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.editorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editorSection label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.editorInput, .editorSelect, .editorTextarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.editorInput:focus, .editorSelect:focus, .editorTextarea:focus {
+  border-color: var(--accent-color);
+}
+
+.editorToggleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editorToggleRow label {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.dangerZone {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+.deleteButton {
+  color: var(--error-color);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+/* Live Preview Pane */
+.previewContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.previewCard {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.previewTitle {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.previewDescription {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.previewInput {
+  width: 100%;
+  font-size: 24px;
+  border: none;
+  border-bottom: 1px solid var(--accent-color);
+  background: transparent;
+  padding: 8px 0;
+  outline: none;
+  color: var(--accent-color);
+}
+
+.previewInput::placeholder {
+  color: #c0c0c0;
+}
+
+.previewButton {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 24px;
+  font-size: 18px;
+  border-radius: 4px;
+  width: max-content;
+  font-weight: 500;
+}
