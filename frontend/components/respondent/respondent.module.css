@@ -137,3 +137,37 @@
   font-size: 14px;
   width: max-content;
 }
+
+.selectInput {
+  width: 100%;
+  font-size: 24px;
+  border: none;
+  border-bottom: 1px solid var(--accent-color);
+  background: transparent;
+  padding: 8px 0;
+  outline: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  appearance: none;
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.starIcon {
+  color: var(--border-color);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.starIconFilled {
+  color: var(--accent-color);
+  fill: var(--accent-color);
+}
+
+.starIcon:hover {
+  color: var(--accent-color);
+  opacity: 0.8;
+}

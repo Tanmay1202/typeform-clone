@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './respondent.module.css';
+import { Star } from 'lucide-react';
 
 interface QuestionScreenProps {
   question: any;
@@ -107,6 +108,65 @@ export default function QuestionScreen({ question, value, onChange, onNext, erro
                   <span className={styles.optionLetter}>{letter}</span>
                   {opt.label}
                 </div>
+              );
+            })}
+          </div>
+        )}
+
+        {question.type === 'DROPDOWN' && (
+          <select
+            className={styles.selectInput}
+            value={value || ''}
+            onChange={(e) => {
+              onChange(e.target.value);
+              setTimeout(onNext, 400);
+            }}
+          >
+            <option value="" disabled>Select an option...</option>
+            {question.options?.map((opt: any) => (
+              <option key={opt.id} value={opt.label}>{opt.label}</option>
+            ))}
+          </select>
+        )}
+
+        {question.type === 'YES_NO' && (
+          <div className={styles.optionsList}>
+            {['Yes', 'No'].map((opt, idx) => {
+              const letter = opt === 'Yes' ? 'Y' : 'N';
+              const isSelected = value === opt;
+              return (
+                <div 
+                  key={opt}
+                  className={`${styles.optionItem} ${isSelected ? styles.optionSelected : ''}`}
+                  onClick={() => {
+                    onChange(opt);
+                    setTimeout(onNext, 400); 
+                  }}
+                >
+                  <span className={styles.optionLetter}>{letter}</span>
+                  {opt}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {question.type === 'RATING' && (
+          <div className={styles.ratingContainer}>
+            {[1, 2, 3, 4, 5].map((star) => {
+              const currentRating = parseInt(value || '0');
+              const isFilled = star <= currentRating;
+              return (
+                <Star
+                  key={star}
+                  size={48}
+                  strokeWidth={1}
+                  className={`${styles.starIcon} ${isFilled ? styles.starIconFilled : ''}`}
+                  onClick={() => {
+                    onChange(star.toString());
+                    setTimeout(onNext, 400);
+                  }}
+                />
               );
             })}
           </div>

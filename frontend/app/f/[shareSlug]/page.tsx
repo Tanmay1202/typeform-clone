@@ -108,9 +108,17 @@ export default function RespondentFlow() {
 
   const currentQuestion = form.questions[currentIndex];
   const progress = (currentIndex / form.questions.length) * 100;
+  
+  const themeStyles = {
+    '--surface': form.theme_settings?.background_color || '#f9fafb',
+    '--accent-color': form.theme_settings?.primary_color || '#0445af',
+    '--text-primary': form.theme_settings?.primary_color || '#111827',
+    '--text-secondary': form.theme_settings?.primary_color ? `${form.theme_settings.primary_color}99` : '#4b5563',
+    '--border-color': form.theme_settings?.primary_color ? `${form.theme_settings.primary_color}40` : '#d1d5db',
+  } as React.CSSProperties;
 
   return (
-    <div style={{ height: '100vh', width: '100vw', backgroundColor: 'var(--surface)', overflow: 'hidden' }}>
+    <div style={{ ...themeStyles, height: '100vh', width: '100vw', backgroundColor: 'var(--surface)', overflow: 'hidden' }}>
       <ProgressBar progress={progress} />
       
       <TransitionWrapper direction={direction} stepKey={currentQuestion.id}>
