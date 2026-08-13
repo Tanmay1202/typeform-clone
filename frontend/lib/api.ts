@@ -1,4 +1,9 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+let baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+// Automatically fix if the user forgot to add /api to the end in Vercel
+if (baseUrl.includes('onrender.com') && !baseUrl.endsWith('/api')) {
+  baseUrl = baseUrl.replace(/\/$/, '') + '/api';
+}
+export const API_BASE = baseUrl;
 
 export async function fetchWorkspaces() {
   const res = await fetch(`${API_BASE}/workspaces/`);
