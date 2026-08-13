@@ -6,9 +6,9 @@ from ..database import get_db
 
 router = APIRouter(prefix="/api/forms", tags=["Creator - Forms"])
 
-@router.get("/", response_model=List[schemas.FormOut])
-def list_forms(db: Session = Depends(get_db)):
-    return crud.get_forms(db)
+@router.get("/", response_model=List[schemas.FormListOut])
+def list_forms(workspace_id: int | None = None, db: Session = Depends(get_db)):
+    return crud.get_forms_with_counts(db, workspace_id)
 
 @router.post("/", response_model=schemas.FormOut)
 def create_form(form: schemas.FormCreate, db: Session = Depends(get_db)):
@@ -35,3 +35,17 @@ def delete_form(form_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Form not found")
     crud.delete_form(db=db, form_id=form_id)
     return {"ok": True}
+
+@router.post("/{form_id}/duplicate", response_model=schemas.FormOut)
+def duplicate_form(form_id: int, db: Session = Depends(get_db)):
+    db_form = crud.duplicate_form(db, form_id=form_id)
+    if db_form is None:
+        raise HTTPException(status_code=404, detail="Form not found")
+    return db_form
+
+@router.get("/{form_id}/responses", response_model=List[schemas.ResponseOut])
+def get_responses(form_id: int, db: Session = Depends(get_db)):
+    db_form = crud.get_form(db, form_id=form_id)
+    if db_form is None:
+        raise HTTPException(status_code=404, detail="Form not found")
+    return crud.get_responses_for_form(db, form_id=form_id)

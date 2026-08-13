@@ -16,11 +16,24 @@ class QuestionType(str, enum.Enum):
     MULTIPLE_CHOICE = "MULTIPLE_CHOICE"
     EMAIL = "EMAIL"
     NUMBER = "NUMBER"
+    DROPDOWN = "DROPDOWN"
+    YES_NO = "YES_NO"
+    RATING = "RATING"
+
+class Workspace(Base):
+    __tablename__ = "workspaces"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    forms = relationship("Form", back_populates="workspace", cascade="all, delete-orphan")
 
 class Form(Base):
     __tablename__ = "forms"
 
     id = Column(Integer, primary_key=True, index=True)
+    workspace_id = Column(Integer, ForeignKey("workspaces.id", ondelete="CASCADE"), nullable=False)
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     status = Column(Enum(FormStatus), default=FormStatus.DRAFT)
@@ -30,6 +43,7 @@ class Form(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    workspace = relationship("Workspace", back_populates="forms")
     questions = relationship("Question", back_populates="form", cascade="all, delete-orphan", order_by="Question.order_index")
     responses = relationship("Response", back_populates="form", cascade="all, delete-orphan")
 

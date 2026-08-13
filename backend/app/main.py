@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .routers import forms, questions, public, responses
 from .database import engine, Base
+from fastapi.middleware.cors import CORSMiddleware
+from .routers import forms, questions, public, responses, workspaces
 
 # Create all tables in the database
 Base.metadata.create_all(bind=engine)
@@ -16,6 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(workspaces.router)
 app.include_router(forms.router)
 app.include_router(questions.router)
 app.include_router(responses.router)

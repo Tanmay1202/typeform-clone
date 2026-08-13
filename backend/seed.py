@@ -25,9 +25,17 @@ def seed_db():
             db.query(models.QuestionOption).delete()
             db.query(models.Question).delete()
             db.query(models.Form).delete()
+            db.query(models.Workspace).delete()
             db.commit()
 
         print("Seeding database...")
+
+        # ---------------------------------------------------------
+        # WORKSPACE
+        # ---------------------------------------------------------
+        from app.crud import create_workspace
+        ws_data = schemas.WorkspaceCreate(name="My workspace")
+        workspace = create_workspace(db, ws_data)
 
         # ---------------------------------------------------------
         # FORM 1: Product Feedback Survey
@@ -35,6 +43,7 @@ def seed_db():
         form1_data = schemas.FormCreate(
             title="Product Feedback Survey",
             description="Help us improve our new SaaS product by sharing your thoughts.",
+            workspace_id=workspace.id
         )
         form1 = create_form(db, form1_data)
         
@@ -119,6 +128,7 @@ def seed_db():
         form2_data = schemas.FormCreate(
             title="Tech Meetup Registration",
             description="Join us for an evening of networking and tech talks.",
+            workspace_id=workspace.id
         )
         form2 = create_form(db, form2_data)
         

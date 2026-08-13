@@ -26,7 +26,13 @@ class QuestionBase(BaseModel):
 class QuestionCreate(QuestionBase):
     options: Optional[List[QuestionOptionCreate]] = None
 
-class QuestionUpdate(QuestionBase):
+class QuestionUpdate(BaseModel):
+    type: Optional[QuestionType] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    required: Optional[bool] = None
+    order_index: Optional[int] = None
+    validation_rules: Optional[Any] = None
     options: Optional[List[QuestionOptionCreate]] = None
 
 class QuestionOut(QuestionBase):
@@ -39,6 +45,17 @@ class QuestionOut(QuestionBase):
 class QuestionReorderInput(BaseModel):
     question_ids: List[int]
 
+class WorkspaceBase(BaseModel):
+    name: str
+
+class WorkspaceCreate(WorkspaceBase):
+    pass
+
+class WorkspaceOut(WorkspaceBase):
+    id: int
+    created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
+
 class FormBase(BaseModel):
     title: str
     description: Optional[str] = None
@@ -46,6 +63,7 @@ class FormBase(BaseModel):
     share_slug: Optional[str] = None
     theme_settings: Optional[Any] = None
     thank_you_message: Optional[str] = None
+    workspace_id: int
 
 class FormCreate(FormBase):
     pass
@@ -62,6 +80,13 @@ class FormOut(FormBase):
     created_at: datetime
     updated_at: datetime
     questions: List[QuestionOut] = []
+    model_config = ConfigDict(from_attributes=True)
+
+class FormListOut(FormBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+    response_count: int = 0
     model_config = ConfigDict(from_attributes=True)
 
 class AnswerBase(BaseModel):
