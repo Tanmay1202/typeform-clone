@@ -1,7 +1,87 @@
-.container {
+.layout {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
+  background-color: #f7f7f7;
+  overflow: hidden;
+}
+
+.topNav {
+  height: 60px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color, #e2e2e2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.navLeft, .navCenter, .navRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navCenter {
+  gap: 24px;
+}
+
+.navBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navBreadcrumbCurrent {
+  color: var(--text-primary);
+}
+
+.navTab {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.navTabActive {
+  background-color: #f3f4f6;
+  color: var(--text-primary);
+}
+
+.publishButton {
+  background-color: #191919;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.publishButton:hover {
+  background-color: #000000;
+}
+
+.publishButtonDisabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.container {
+  display: flex;
+  flex: 1;
   background-color: #f7f7f7;
   overflow: hidden;
 }
@@ -18,11 +98,51 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #f7f7f7;
+  background-color: #f9f9f9;
+  padding: 24px;
+}
+
+.canvasToolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.addContentBtn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+.addContentBtn:hover {
+  background-color: rgba(0,0,0,0.02);
+}
+
+.canvasPreviewCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
 }
 
 .sidebarRight {
-  width: 340px;
+  width: 320px;
   background-color: #ffffff;
   border-left: 1px solid var(--border-color, #e2e2e2);
   display: flex;

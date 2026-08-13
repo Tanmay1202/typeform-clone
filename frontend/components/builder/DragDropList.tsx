@@ -33,10 +33,10 @@ interface DragDropListProps {
   onReorder: (newQuestions: Question[]) => void;
   activeId: number | null;
   onSelect: (id: number) => void;
-  onAdd: (type: string) => void;
+  onAdd: () => void;
 }
 
-function SortableItem({ question, isActive, onSelect }: { question: Question, isActive: boolean, onSelect: () => void }) {
+function SortableItem({ question, isActive, onSelect, index }: { question: Question, isActive: boolean, onSelect: () => void, index: number }) {
   const {
     attributes,
     listeners,
@@ -50,6 +50,9 @@ function SortableItem({ question, isActive, onSelect }: { question: Question, is
     transition,
   };
 
+  const colors = [styles.badgeBlue, styles.badgeGreen, styles.badgeYellow, styles.badgePurple];
+  const badgeClass = colors[index % colors.length];
+
   return (
     <div
       ref={setNodeRef}
@@ -61,8 +64,7 @@ function SortableItem({ question, isActive, onSelect }: { question: Question, is
         <GripVertical size={16} color="#aaa" />
       </div>
       <div className={styles.questionIcon}>
-        {/* Placeholder for question type icon */}
-        <span className={styles.iconBox}>{question.type.charAt(0)}</span>
+        <span className={clsx(styles.iconBox, badgeClass)}>{index + 1}</span>
       </div>
       <div className={styles.questionTitle}>
         {question.title || '...'}
@@ -97,7 +99,6 @@ export default function DragDropList({ questions, onReorder, activeId, onSelect,
   return (
     <div className={styles.sidebarContent}>
       <div className={styles.listSection}>
-        <div className={styles.sectionTitle}>Pages</div>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -108,10 +109,11 @@ export default function DragDropList({ questions, onReorder, activeId, onSelect,
             strategy={verticalListSortingStrategy}
           >
             <div className={styles.questionList}>
-              {questions.map((q) => (
+              {questions.map((q, i) => (
                 <SortableItem
                   key={q.id}
                   question={q}
+                  index={i}
                   isActive={q.id === activeId}
                   onSelect={() => onSelect(q.id)}
                 />
@@ -120,15 +122,12 @@ export default function DragDropList({ questions, onReorder, activeId, onSelect,
           </SortableContext>
         </DndContext>
       </div>
-      
-      <div className={styles.addButtonWrapper}>
-        <button 
-          className={styles.addContentButton}
-          onClick={() => onAdd('SHORT_TEXT')}
-        >
-          <Plus size={16} />
-          Add content
-        </button>
+
+      <div className={styles.endingsSection}>
+        <div className={styles.endingsHeader}>
+          Endings
+          <Plus size={16} className={styles.endingsPlus} onClick={() => alert("Custom Endings coming soon!")} />
+        </div>
       </div>
     </div>
   );

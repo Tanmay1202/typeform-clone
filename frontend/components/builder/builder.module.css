@@ -64,11 +64,16 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background-color: #e0e0e0;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
+  color: #191919;
 }
+
+.badgeBlue { background-color: #dbeafe; }
+.badgeGreen { background-color: #d1fae5; }
+.badgeYellow { background-color: #fef08a; }
+.badgePurple { background-color: #f3e8ff; }
 
 .questionTitle {
   font-size: 14px;
@@ -96,6 +101,31 @@
 
 .addContentButton:hover {
   opacity: 0.9;
+}
+
+.endingsSection {
+  margin-top: 24px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+.endingsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.endingsPlus {
+  cursor: pointer;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 2px;
+}
+.endingsPlus:hover {
+  background-color: rgba(0,0,0,0.05);
+  color: var(--text-primary);
 }
 
 /* Editor Panel */
@@ -144,6 +174,73 @@
   color: var(--text-primary);
 }
 
+.toggleSwitch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: #d1d5db;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.toggleSwitchChecked {
+  background-color: #191919;
+}
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.toggleSwitchChecked .toggleKnob {
+  transform: translateX(16px);
+}
+
+.rightSidebarTabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 16px;
+}
+.rightSidebarTab {
+  padding: 16px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.rightSidebarTabActive {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
+}
+
+.fancySelectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.fancySelectWrapper:hover {
+  background-color: var(--surface-hover);
+}
+.fancySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .dangerZone {
   margin-top: 32px;
   padding-top: 24px;
@@ -154,7 +251,17 @@
   color: var(--error-color);
   font-weight: 500;
   font-size: 14px;
-  padding: 8px 0;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--error-color);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.deleteButton:hover {
+  background-color: #fef2f2;
 }
 
 /* Live Preview Pane */
