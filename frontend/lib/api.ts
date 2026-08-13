@@ -69,3 +69,33 @@ export async function reorderQuestions(formId: number, questionIds: number[]) {
   if (!res.ok) throw new Error('Failed to reorder questions');
   return res.json();
 }
+
+export async function deleteForm(id: number) {
+  const res = await fetch(`${API_BASE}/forms/${id}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete form');
+  return res.json();
+}
+
+export async function getPublicForm(shareSlug: string) {
+  const res = await fetch(`${API_BASE}/public/f/${shareSlug}`);
+  if (!res.ok) throw new Error('Failed to fetch public form');
+  return res.json();
+}
+
+export async function submitResponse(shareSlug: string, data: any) {
+  const res = await fetch(`${API_BASE}/public/f/${shareSlug}/responses`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to submit response');
+  return res.json();
+}
+
+export async function getFormResponses(formId: number) {
+  const res = await fetch(`${API_BASE}/forms/${formId}/responses/`);
+  if (!res.ok) throw new Error('Failed to fetch responses');
+  return res.json();
+}
