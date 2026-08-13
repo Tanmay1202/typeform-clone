@@ -16,17 +16,10 @@ def seed_db():
     
     db = SessionLocal()
     try:
-        # Check if we already have forms to prevent duplicate seeding
         existing_forms = db.query(models.Form).count()
         if existing_forms > 0:
-            print("Database already seeded. Clearing existing data...")
-            db.query(models.Answer).delete()
-            db.query(models.Response).delete()
-            db.query(models.QuestionOption).delete()
-            db.query(models.Question).delete()
-            db.query(models.Form).delete()
-            db.query(models.Workspace).delete()
-            db.commit()
+            print("Database already seeded. Skipping seed...")
+            return
 
         print("Seeding database...")
 

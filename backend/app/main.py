@@ -3,10 +3,19 @@ from .database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import forms, questions, public, responses, workspaces
 
+from contextlib import asynccontextmanager
+
 # Create all tables in the database
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Typeform Clone API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Run the seed script automatically on startup
+    import seed
+    seed.seed_db()
+    yield
+
+app = FastAPI(title="Typeform Clone API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
