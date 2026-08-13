@@ -1,0 +1,139 @@
+.questionContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.questionTitle {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.questionNumber {
+  color: var(--accent-color);
+  margin-right: 12px;
+  font-size: 16px;
+  margin-top: 6px;
+}
+
+.requiredAsterisk {
+  color: var(--accent-color);
+  margin-left: 8px;
+}
+
+.questionDescription {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  margin-left: 24px;
+}
+
+.inputWrapper {
+  margin-left: 24px;
+  margin-bottom: 32px;
+}
+
+.textInput, .textArea {
+  width: 100%;
+  font-size: 24px;
+  border: none;
+  border-bottom: 1px solid var(--accent-color);
+  background: transparent;
+  padding: 8px 0;
+  outline: none;
+  color: var(--accent-color);
+}
+
+.textInput::placeholder, .textArea::placeholder {
+  color: rgba(4, 69, 175, 0.3);
+}
+
+.textArea {
+  resize: none;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionItem {
+  padding: 12px 16px;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  color: var(--accent-color);
+  background-color: rgba(4, 69, 175, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.optionItem:hover {
+  background-color: rgba(4, 69, 175, 0.1);
+}
+
+.optionSelected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.optionLetter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid currentColor;
+  margin-right: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.actionRow {
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.okButton {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 24px;
+  font-size: 18px;
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.okButton:hover {
+  opacity: 0.9;
+}
+
+.enterHint {
+  font-size: 12px;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.errorMessage {
+  color: #dc2626;
+  margin-left: 24px;
+  margin-bottom: 16px;
+  background-color: #fee2e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: max-content;
+}
