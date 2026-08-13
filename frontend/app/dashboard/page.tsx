@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fetchForms, createForm, updateForm, deleteForm, duplicateForm, fetchWorkspaces, createWorkspace } from '../../lib/api';
 import styles from './dashboard.module.css';
-import { Plus, Search, MoreHorizontal, Edit2, Trash2, Copy, LayoutGrid, List, ChevronDown } from 'lucide-react';
+import { Plus, Search, MoreHorizontal, Edit2, Trash2, Copy, LayoutGrid, List, ChevronDown, Calendar, PenLine, ArrowDownAZ } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type ModalConfig = {
@@ -25,6 +25,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState<'created' | 'updated' | 'alphabetical'>('created');
+  const [sortMenuOpen, setSortMenuOpen] = useState(false);
   
   const [modal, setModal] = useState<ModalConfig>({ isOpen: false, type: 'alert', title: '' });
   const modalInputRef = useRef<HTMLInputElement>(null);
@@ -152,6 +154,13 @@ export default function Dashboard() {
   
   const activeWorkspace = workspaces.find(ws => ws.id === activeWorkspaceId);
 
+  const sortedForms = [...forms].sort((a, b) => {
+    if (sortBy === 'created') return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+    if (sortBy === 'updated') return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime();
+    if (sortBy === 'alphabetical') return (a.title || '').localeCompare(b.title || '');
+    return 0;
+  });
+
   if (loading) return <div className={styles.layout}>Loading dashboard...</div>;
 
   return (
@@ -201,8 +210,29 @@ export default function Dashboard() {
             </div>
             
             <div className={styles.workspaceActions}>
-              <div className={styles.dateCreatedToggle}>
-                Date created <ChevronDown size={16} />
+              <div style={{ position: 'relative' }}>
+                <div 
+                  className={styles.dateCreatedToggle}
+                  onClick={() => setSortMenuOpen(!sortMenuOpen)}
+                >
+                  {sortBy === 'created' ? <><Calendar size={16}/> Date created</> :
+                   sortBy === 'updated' ? <><PenLine size={16}/> Last updated</> :
+                   <><ArrowDownAZ size={16}/> Alphabetical</>} 
+                  <ChevronDown size={16} />
+                </div>
+                {sortMenuOpen && (
+                  <div className={styles.sortMenu}>
+                    <div onClick={() => { setSortBy('created'); setSortMenuOpen(false); }} className={sortBy === 'created' ? styles.sortMenuItemActive : styles.sortMenuItem}>
+                      <Calendar size={16}/> Date created
+                    </div>
+                    <div onClick={() => { setSortBy('updated'); setSortMenuOpen(false); }} className={sortBy === 'updated' ? styles.sortMenuItemActive : styles.sortMenuItem}>
+                      <PenLine size={16}/> Last updated
+                    </div>
+                    <div onClick={() => { setSortBy('alphabetical'); setSortMenuOpen(false); }} className={sortBy === 'alphabetical' ? styles.sortMenuItemActive : styles.sortMenuItem}>
+                      <ArrowDownAZ size={16}/> Alphabetical
+                    </div>
+                  </div>
+                )}
               </div>
               <div className={styles.viewToggle}>
                 <div 
@@ -223,7 +253,7 @@ export default function Dashboard() {
 
           {viewMode === 'grid' ? (
             <div className={styles.gridContainer}>
-              {forms.map((form) => (
+              {sortedForms.map((form) => (
                 <Link key={form.id} href={`/dashboard/forms/${form.id}/edit`} className={styles.formCard}>
                   <div className={styles.cardHeader}>
                     <div className={styles.cardTitle}>{form.title}</div>
@@ -265,7 +295,7 @@ export default function Dashboard() {
                 <div>Integrations</div>
                 <div></div>
               </div>
-              {forms.map((form) => (
+              {sortedForms.map((form) => (
                 <Link key={form.id} href={`/dashboard/forms/${form.id}/edit`} className={styles.listRow}>
                   <div className={styles.listRowTitle}>
                     <div className={styles.listIcon} />

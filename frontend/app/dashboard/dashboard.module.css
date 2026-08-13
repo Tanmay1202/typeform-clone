@@ -162,6 +162,48 @@
   font-size: 14px;
   color: #4b5563;
   cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.dateCreatedToggle:hover {
+  background-color: #f3f4f6;
+}
+.sortMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 8px;
+  z-index: 50;
+  min-width: 160px;
+  border: 1px solid #e5e7eb;
+}
+.sortMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.sortMenuItem:hover {
+  background-color: #f9fafb;
+}
+.sortMenuItemActive {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #111827;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #f3f4f6;
+  font-weight: 500;
 }
 .viewToggle {
   display: flex;
