@@ -1,0 +1,41 @@
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #5e5e5e;
+  --accent-color: #0445af;
+  --accent-hover: #03368a;
+  --border-color: #e2e2e2;
+  --error-color: #e50000;
+  --surface: #f7f7f7;
+  --surface-hover: #ebebeb;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
