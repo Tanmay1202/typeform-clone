@@ -95,9 +95,31 @@ def reorder_questions(db: Session, form_id: int, question_ids: List[int]) -> Lis
 # --- Responses ---
 
 def create_response(db: Session, form_id: int, response: schemas.ResponseCreate) -> models.Response:
-    # TODO
-    pass
+    from datetime import datetime
+    
+    db_response = models.Response(
+        form_id=form_id,
+        completed=response.completed,
+        submitted_at=datetime.utcnow() if response.completed else None
+    )
+    db.add(db_response)
+    db.commit()
+    db.refresh(db_response)
+    
+    for ans in response.answers:
+        db_answer = models.Answer(
+            response_id=db_response.id,
+            question_id=ans.question_id,
+            value=ans.value
+        )
+        db.add(db_answer)
+        
+    db.commit()
+    db.refresh(db_response)
+    return db_response
 
 def get_responses_for_form(db: Session, form_id: int) -> List[models.Response]:
-    # TODO
-    pass
+    return db.query(models.Response).filter(models.Response.form_id == form_id).all()
+
+def get_response(db: Session, form_id: int, response_id: int) -> models.Response | None:
+    return db.query(models.Response).filter(models.Response.form_id == form_id, models.Response.id == response_id).first()
