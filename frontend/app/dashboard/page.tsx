@@ -33,32 +33,45 @@ export default function Dashboard() {
 
   const router = useRouter();
 
-  const loadData = async () => {
-    try {
-      const wsData = await fetchWorkspaces();
-      setWorkspaces(wsData);
-      
-      let currentWsId = activeWorkspaceId;
-      if (!currentWsId && wsData.length > 0) {
-        currentWsId = wsData[0].id;
-        setActiveWorkspaceId(currentWsId);
+  useEffect(() => {
+    let isMounted = true;
+    const initWorkspaces = async () => {
+      try {
+        const wsData = await fetchWorkspaces();
+        if (isMounted) {
+          setWorkspaces(wsData);
+          if (wsData.length > 0 && !activeWorkspaceId) {
+            setActiveWorkspaceId(wsData[0].id);
+          } else {
+            setLoading(false);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+        if (isMounted) setLoading(false);
       }
-      
-      if (currentWsId) {
-        const formData = await fetchForms(currentWsId);
-        setForms(formData);
-      } else {
-        setForms([]);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    initWorkspaces();
+    return () => { isMounted = false; };
+  }, []); // Run once on mount
 
   useEffect(() => {
-    loadData();
+    let isMounted = true;
+    if (!activeWorkspaceId) return;
+
+    const loadForms = async () => {
+      setLoading(true);
+      try {
+        const formData = await fetchForms(activeWorkspaceId);
+        if (isMounted) setForms(formData);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    loadForms();
+    return () => { isMounted = false; };
   }, [activeWorkspaceId]);
 
   useEffect(() => {
@@ -118,7 +131,10 @@ export default function Dashboard() {
       onConfirm: async (newTitle) => {
         if (newTitle && newTitle !== form.title) {
           await updateForm(form.id, { title: newTitle });
-          loadData();
+          if (activeWorkspaceId) {
+            const formData = await fetchForms(activeWorkspaceId);
+            setForms(formData);
+          }
         }
         closeModal();
       },
@@ -137,7 +153,10 @@ export default function Dashboard() {
       message: 'Are you sure you want to delete this form? This action cannot be undone.',
       onConfirm: async () => {
         await deleteForm(formId);
-        loadData();
+        if (activeWorkspaceId) {
+          const formData = await fetchForms(activeWorkspaceId);
+          setForms(formData);
+        }
         closeModal();
       },
       onCancel: closeModal
@@ -149,7 +168,10 @@ export default function Dashboard() {
     e.stopPropagation();
     setMenuOpen(null);
     await duplicateForm(formId);
-    loadData();
+    if (activeWorkspaceId) {
+      const formData = await fetchForms(activeWorkspaceId);
+      setForms(formData);
+    }
   };
   
   const activeWorkspace = workspaces.find(ws => ws.id === activeWorkspaceId);
