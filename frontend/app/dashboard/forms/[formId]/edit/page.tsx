@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { getForm, updateForm, reorderQuestions, createQuestion, updateQuestion, deleteQuestion } from '../../../../../lib/api';
 import DragDropList from '../../../../../components/builder/DragDropList';
@@ -93,9 +93,43 @@ export default function BuilderPage() {
     setIsPublishing(false);
   };
 
-  const handleUpdateQuestion = async (qId: number, data: any) => {
-    const updated = await updateQuestion(formId, qId, data);
-    setQuestions(questions.map(q => q.id === qId ? updated : q));
+  const questionUpdateTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
+  const formUpdateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleUpdateQuestion = (qId: number, data: any) => {
+    setQuestions(prev => {
+      const newQs = prev.map(q => q.id === qId ? { ...q, ...data } : q);
+      const updatedQuestion = newQs.find(q => q.id === qId);
+      
+      if (questionUpdateTimers.current[qId]) {
+        clearTimeout(questionUpdateTimers.current[qId]);
+      }
+      
+      questionUpdateTimers.current[qId] = setTimeout(() => {
+        if (updatedQuestion) {
+          updateQuestion(formId, qId, updatedQuestion).catch(console.error);
+        }
+        delete questionUpdateTimers.current[qId];
+      }, 500);
+
+      return newQs;
+    });
+  };
+
+  const handleUpdateForm = (data: any) => {
+    setForm((prev: any) => {
+      const newForm = { ...prev, ...data };
+      
+      if (formUpdateTimer.current) {
+        clearTimeout(formUpdateTimer.current);
+      }
+      
+      formUpdateTimer.current = setTimeout(() => {
+        updateForm(formId, newForm).catch(console.error);
+      }, 500);
+
+      return newForm;
+    });
   };
 
   const handleDeleteQuestion = async (qId: number) => {
@@ -187,7 +221,7 @@ export default function BuilderPage() {
                 onDelete={() => handleDeleteQuestion(activeQuestion.id)}
               />
             ) : (
-              <FormSettingsPanel form={form} onUpdate={(data) => updateForm(formId, data).then(setForm)} />
+              <FormSettingsPanel form={form} onUpdate={handleUpdateForm} />
             )}
           </aside>
         </div>
